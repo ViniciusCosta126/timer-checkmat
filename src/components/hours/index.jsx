@@ -3,7 +3,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import AdjustTimer from "../../adjustTimer";
 
-const Hours = ({ tittulo, active, complete }) => {
+const Hours = ({ titulo, active, complete, visible, totalComponents }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [unidadeHoras, setUnidadeHoras] = useState(0);
   const [dezenaHoras, setDezenaHoras] = useState(0);
@@ -75,69 +75,73 @@ const Hours = ({ tittulo, active, complete }) => {
   ]);
 
   return (
-    <View style={[styles.container, active ? styles.ativo : styles.desativado]}>
-      <TouchableOpacity style={styles.btn} onPress={openModal}>
-        <Text style={styles.button}>{tittulo}</Text>
-        <Text style={styles.button}>
-          {`${dezenaHoras}${unidadeHoras}`}:
-          {`${dezenaMinutos}${unidadeMinutos}`}:
-          {`${dezenaSegundos}${unidadeSegundos}`}
-        </Text>
-      </TouchableOpacity>
+    <View>
+      {visible && (
+        <View style={[styles.container,totalComponents === 1 && styles.singleComponent]}>
+          <TouchableOpacity style={styles.btn} onPress={openModal}>
+            <Text style={styles.button}>{titulo}</Text>
+            <Text style={styles.button}>
+              {`${dezenaHoras}${unidadeHoras}`}:
+              {`${dezenaMinutos}${unidadeMinutos}`}:
+              {`${dezenaSegundos}${unidadeSegundos}`}
+            </Text>
+          </TouchableOpacity>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <View>
-          <View style={styles.modalContent}>
-            <View style={styles.adjustContainer}>
-              <View style={styles.hourContainer}>
-                <Text style={styles.titleHour}>Hora</Text>
-                <AdjustTimer
-                  setDezena={setDezenaHoras}
-                  setUnidade={setUnidadeHoras}
-                  dezena={dezenaHoras}
-                  unidade={unidadeHoras}
-                />
-              </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={closeModal}
+          >
+            <View>
+              <View style={styles.modalContent}>
+                <View style={styles.adjustContainer}>
+                  <View style={styles.hourContainer}>
+                    <Text style={styles.titleHour}>Hora</Text>
+                    <AdjustTimer
+                      setDezena={setDezenaHoras}
+                      setUnidade={setUnidadeHoras}
+                      dezena={dezenaHoras}
+                      unidade={unidadeHoras}
+                    />
+                  </View>
 
-              <View style={styles.hourContainer}>
-                <Text style={styles.titleHour}>Minuto</Text>
-                <AdjustTimer
-                  setDezena={setDezenaMinutos}
-                  setUnidade={setUnidadeMinutos}
-                  dezena={dezenaMinutos}
-                  unidade={unidadeMinutos}
-                  unidadeMedida={"minuto"}
-                />
-              </View>
+                  <View style={styles.hourContainer}>
+                    <Text style={styles.titleHour}>Minuto</Text>
+                    <AdjustTimer
+                      setDezena={setDezenaMinutos}
+                      setUnidade={setUnidadeMinutos}
+                      dezena={dezenaMinutos}
+                      unidade={unidadeMinutos}
+                      unidadeMedida={"minuto"}
+                    />
+                  </View>
 
-              <View style={styles.hourContainer}>
-                <Text style={styles.titleHour}>Segundo</Text>
-                <AdjustTimer
-                  setDezena={setDezenaSegundos}
-                  setUnidade={setUnidadeSegundos}
-                  dezena={dezenaSegundos}
-                  unidade={unidadeSegundos}
-                  unidadeMedida={"segundo"}
-                />
+                  <View style={styles.hourContainer}>
+                    <Text style={styles.titleHour}>Segundo</Text>
+                    <AdjustTimer
+                      setDezena={setDezenaSegundos}
+                      setUnidade={setUnidadeSegundos}
+                      dezena={dezenaSegundos}
+                      unidade={unidadeSegundos}
+                      unidadeMedida={"segundo"}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity onPress={closeModal}>
+                  <Text style={styles.closeButton}>Aplicar</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity onPress={closeModal}>
-              <Text style={styles.closeButton}>Aplicar</Text>
-            </TouchableOpacity>
-          </View>
+          </Modal>
         </View>
-      </Modal>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ativo: {
+  singleComponent: {
     borderColor: "rgb(0,0,0)",
     borderWidth: 2,
     backgroundColor: "#fff",
@@ -208,10 +212,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#000",
-  },
-
-  desativado: {
-    display: "none",
   },
 });
 export default Hours;
