@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -8,36 +8,38 @@ const AdjustTimer = ({
   setDezena,
   setUnidade,
   unidadeMedida,
+  initialValue
 }) => {
+
   const increaseTime = (tipo) => {
     if (unidadeMedida === "minuto" || unidadeMedida === "segundo") {
       if (tipo === "dezena") {
         if (dezena + 1 >= 6) {
           setDezena(0);
         } else {
-          setDezena(dezena + 1);
+          setDezena(prevDez => prevDez + 1);
         }
       } else {
         if (unidade + 1 >= 10) {
           setUnidade(0);
         } else {
-          setUnidade(unidade + 1);
+          setUnidade(prevUnidade => prevUnidade + 1);
         }
       }
-    } else{
-        if(tipo === 'dezena'){
-            if(dezena + 1 >= 3){
-                setDezena(0);
-            } else{
-                setDezena(dezena + 1);
-            }
-        } else{
-            if(unidade + 1 >= 5){
-                setUnidade(0)
-            }else{
-                setUnidade(unidade + 1)
-            }
+    } else {
+      if (tipo === "dezena") {
+        if (dezena + 1 >= 3) {
+          setDezena(0);
+        } else {
+          setDezena(prevDez => prevDez + 1);
         }
+      } else {
+        if (unidade + 1 >= 5) {
+          setUnidade(0);
+        } else {
+          setUnidade(prevUnidade => prevUnidade + 1);
+        }
+      }
     }
   };
 
@@ -47,13 +49,13 @@ const AdjustTimer = ({
         if (dezena - 1 < 0) {
           setDezena(5);
         } else {
-          setDezena(dezena - 1);
+          setDezena(prevDez => prevDez - 1);
         }
       } else {
         if (unidade - 1 < 0) {
           setUnidade(9);
         } else {
-          setUnidade(unidade - 1);
+          setUnidade(prevUnidade => prevUnidade - 1);
         }
       }
     } else {
@@ -61,17 +63,21 @@ const AdjustTimer = ({
         if (dezena - 1 < 0) {
           setDezena(2);
         } else {
-          setDezena(dezena - 1);
+          setDezena(prevDez => prevDez - 1);
         }
       } else {
         if (unidade - 1 < 0) {
           setUnidade(4);
         } else {
-          setUnidade(unidade - 1);
+          setUnidade(prevUnidade => prevUnidade - 1);
         }
       }
     }
   };
+
+  useEffect(() => {
+    initialValue();
+  }, [dezena, unidade]);
 
   return (
     <View style={styles.container}>

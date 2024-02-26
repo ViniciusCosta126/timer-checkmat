@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Hours from "../hours";
@@ -7,19 +7,46 @@ const Timer = () => {
   const [active, setActive] = useState(0);
   const [visibilities, setVisibilities] = useState([true, true, true]);
   const [visibleCount, setVisibleCount] = useState(0);
-  
+  const [round, setRound] = useState(1);
+  const [isPause, setIsPause] = useState(false);
+
   const startTimer = () => {
-    setActive(1);
-    setVisibleCount(1);
-    setVisibilities([true, false, false]);
+    if (isPause && active !== 0) {
+      setIsPause(false);
+    } else {
+      setActive(1);
+      setVisibleCount(1);
+      setVisibilities([true, false, false]);
+    }
+  };
+
+  const restartTimer = () => {
+    setActive(0);
+    setVisibleCount(0);
+    setRound(1);
+    setVisibilities([true, true, true]);
+    setIsPause(false)
+  };
+
+  const pauseTimer = () => {
+    setIsPause(true);
   };
 
   const onComplete = () => {
-    const newActive = active + 1;
-    setActive(newActive);
+    var newActive = active + 1;
+    if (newActive === 4) {
+      newActive = 2;
+      var newRound = round + 1;
+      setRound(newRound);
+      setActive(newActive);
+    } else {
+      setActive(newActive);
+    }
 
     if (newActive >= 2 && newActive <= 3) {
-      const newVisibilities = visibilities.map((v, index) => index === newActive - 1);
+      const newVisibilities = visibilities.map(
+        (v, index) => index === newActive - 1
+      );
       setVisibilities(newVisibilities);
       setVisibleCount(newVisibilities.filter(Boolean).length);
     }
@@ -28,14 +55,21 @@ const Timer = () => {
   return (
     <View style={styles.container}>
       <View style={styles.timerContainer}>
-      {[1, 2, 3].map((index) => (
+        {[1, 2, 3].map((index) => (
           <Hours
             key={index}
-            titulo={index === 1 ? "Preparação" : index === 2 ? "Round" : "Descanso"}
+            titulo={
+              index === 1 ? "Preparação" : index === 2 ? "Round" : "Descanso"
+            }
             active={active === index}
             visible={visibilities[index - 1]}
             complete={onComplete}
             totalComponents={visibleCount}
+            round={round}
+            bgColor={
+              index === 1 ? "#eeeb24" : index === 2 ? "#209443" : "#C40202"
+            }
+            paused={isPause}
           />
         ))}
       </View>
@@ -44,10 +78,10 @@ const Timer = () => {
         <TouchableOpacity title="Start" onPress={() => startTimer()}>
           <Icon name="play" size={40} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity title="Pause">
+        <TouchableOpacity title="Pause" onPress={() => pauseTimer()}>
           <Icon name="pause" size={40} color="black" disabled={active === 0} />
         </TouchableOpacity>
-        <TouchableOpacity title="Recomecar">
+        <TouchableOpacity title="Recomecar" onPress={() => restartTimer()}>
           <Icon name="undo" size={40} color="black" />
         </TouchableOpacity>
       </View>
@@ -60,19 +94,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center", // Centraliza os itens verticalmente
-    padding: 16,
   },
   timerContainer: {
-    flex: 5,
+    flex: 1,
     justifyContent: "center", // Centraliza os itens verticalmente
     alignItems: "center",
+    paddingBottom: 30,
   },
   containerButtons: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end", // Alinha no final do eixo vertical
-    flex: 1, // Usa todo o espaço disponível
+    flex: 0.5, // Usa todo o espaço disponível
     gap: 30,
+    position: "absolute",
+    left: "50%",
+    bottom: 12,
+    transform: [{ translateX: -80 }],
   },
 });
 

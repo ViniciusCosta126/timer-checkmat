@@ -1,8 +1,10 @@
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Timer from './src/components/timer/index.jsx';
 import Header from './src/components/header/index.jsx';
+import { InitialValuesProvider } from './src/context/InitialValuesContext.jsx';
 export default function App() {
   return (
+    <InitialValuesProvider>
     <SafeAreaView style={styles.container}>
       <Header/>
       <View style={styles.containerTimer}>
@@ -10,8 +12,8 @@ export default function App() {
         <Timer />
         <Image style={styles.img2} source={require('./assets/logo-checkmat.png')}/>
       </View>
-      
     </SafeAreaView>
+    </InitialValuesProvider>
   );
 }
 
