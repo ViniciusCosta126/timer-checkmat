@@ -5,14 +5,14 @@ import { InitialValuesProvider } from './src/context/InitialValuesContext.jsx';
 export default function App() {
   return (
     <InitialValuesProvider>
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Header/>
       <View style={styles.containerTimer}>
         <Image style={styles.img1} source={require('./assets/logo-checkmat-araraquara.png')}/>
         <Timer />
         <Image style={styles.img2} source={require('./assets/logo-checkmat.png')}/>
       </View>
-    </SafeAreaView>
+    </View>
     </InitialValuesProvider>
   );
 }

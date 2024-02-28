@@ -4,6 +4,8 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AdjustTimer from "../adjustTimer";
 import { useInitialValues } from "../../context/InitialValuesContext";
 
+import { Audio } from 'expo-av';
+
 const Hours = ({
   titulo,
   active,
@@ -24,6 +26,15 @@ const Hours = ({
   const { valorPrep, valorRound, valorDescanso, updateValores } =
     useInitialValues();
 
+  const [sound, setSound] = useState();
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync( require('../../../assets/som-gongo.mp3')
+    );
+    setSound(sound);
+    await sound.playAsync();
+  }
+
   const styles = StyleSheet.create({
     singleComponent: {
       borderColor: bgColor,
@@ -31,9 +42,9 @@ const Hours = ({
       backgroundColor: bgColor,
       justifyContent: "center",
       alignItems: "center",
-      borderRadius: 10,
-      width: 300,
-      height: 150,
+      borderRadius: 125,
+      width: 210,
+      height: 210,
     },
     container: {
       justifyContent: "center",
@@ -50,7 +61,7 @@ const Hours = ({
       fontWeight: "bold",
     },
     buttonSingle: {
-      fontSize: 24,
+      fontSize: 32,
     },
     modalContainer: {
       flex: 1,
@@ -108,6 +119,7 @@ const Hours = ({
       `${dezenaHoras} ${unidadeHoras} ${dezenaMinutos} ${unidadeMinutos} ${dezenaSegundos} ${unidadeSegundos}`
     );
   };
+
   const openModal = () => {
     setModalVisible(true);
   };
@@ -136,6 +148,9 @@ const Hours = ({
         if (newTotalSeconds === 0) {
           setTimeout(()=>complete(),1000)
           // Chama a função complete imediatamente quando o timer atinge zero
+        }
+        if(newTotalSeconds === 1){
+          playSound()
         }
 
         const newDezenaHoras = Math.floor(newTotalSeconds / 36000);
@@ -188,15 +203,12 @@ const Hours = ({
     switch (titulo) {
       case "Preparação":
         novosValores = valorPrep.split(" ").map((tempo) => parseInt(tempo));
-        console.log(`Round ${round} - Preparação: ${novosValores}`);
         break;
       case "Round":
         novosValores = valorRound.split(" ").map((tempo) => parseInt(tempo));
-        console.log(`Round ${round} - Round: ${novosValores}`);
         break;
       case "Descanso":
         novosValores = valorDescanso.split(" ").map((tempo) => parseInt(tempo));
-        console.log(`Round ${round} - Descanso: ${novosValores}`);
         break;
     }
 

@@ -67,7 +67,7 @@ const Timer = () => {
             totalComponents={visibleCount}
             round={round}
             bgColor={
-              index === 1 ? "#eeeb24" : index === 2 ? "#209443" : "#C40202"
+              index === 1 ? "#FDE12D" : index === 2 ? "#209443" : "#C40202"
             }
             paused={isPause}
           />

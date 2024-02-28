@@ -7,7 +7,7 @@
     "icon": "./assets/icon.jpeg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo-checkmat.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -30,10 +30,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.jpeg",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.viniciusc6.timer"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4bcb67d6-3211-4eb2-ab69-c9317c341ff4"
+      }
+    },
+    "owner": "viniciusc6"
   }
 }
