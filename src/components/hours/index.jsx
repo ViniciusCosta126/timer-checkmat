@@ -37,31 +37,32 @@ const Hours = ({
 
   const styles = StyleSheet.create({
     singleComponent: {
-      borderColor: bgColor,
-      borderWidth: 2,
-      backgroundColor: bgColor,
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
-      borderRadius: 125,
-      width: 210,
-      height: 210,
+      flex:3,
+      width:400,
+      padding:10
     },
     container: {
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
     },
     btn: {
       textAlign: "center",
     },
     button: {
-      fontSize: 18,
+      fontSize: 20,
       color: "#000",
       textAlign: "center",
       marginTop: 6,
       fontWeight: "bold",
+      letterSpacing:1.5
     },
     buttonSingle: {
-      fontSize: 32,
+      fontSize: 66,
+      color:bgColor,
+      fontWeight:'bold',
+      letterSpacing:4
     },
     modalContainer: {
       flex: 1,
@@ -98,7 +99,6 @@ const Hours = ({
     hourContainer: {
       justifyContent: "center",
       alignItems: "center",
-      justifyContent: "center",
       width: 70,
     },
     adjustTimer: {
